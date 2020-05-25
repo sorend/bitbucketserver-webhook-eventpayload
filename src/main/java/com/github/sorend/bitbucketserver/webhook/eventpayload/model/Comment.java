@@ -15,7 +15,7 @@ public class Comment {
     public Actor author;
     public ZonedDateTime createdDate;
     public ZonedDateTime updatedDate;
-    public List comments;
+    public List<Comment> comments;
     public List tasks;
     public PermittedOperations permittedOperations;
 }

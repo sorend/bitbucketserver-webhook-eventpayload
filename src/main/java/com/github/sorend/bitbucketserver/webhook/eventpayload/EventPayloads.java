@@ -1,7 +1,7 @@
 package com.github.sorend.bitbucketserver.webhook.eventpayload;
 
+import com.github.sorend.bitbucketserver.webhook.eventpayload.requests.*;
 import com.google.gson.Gson;
-import com.github.sorend.bitbucketserver.webhook.eventpayload.model.*;
 
 /**
  * Factory for loading event payloads based on event type
@@ -26,24 +26,16 @@ public class EventPayloads {
         return parse(json, RepoForked.class);
     }
 
-    public RepoCommentAdded repoCommentAdded(String json) {
-        return parse(json, RepoCommentAdded.class);
-    }
-
-    public RepoCommentEdited repoCommentEdited(String json) {
-        return parse(json, RepoCommentEdited.class);
-    }
-
-    public RepoCommentDeleted repoCommentDeleted(String json) {
-        return parse(json, RepoCommentDeleted.class);
+    public RepoCommented repoCommented(String json) {
+        return parse(json, RepoCommented.class);
     }
 
     public MirrorRepoSynchronized mirrorRepoSynchronized(String json) {
         return parse(json, MirrorRepoSynchronized.class);
     }
 
-    public PullRequestOpened pullRequestOpened(String json) {
-        return parse(json, PullRequestOpened.class);
+    public PullRequestOpenClose pullRequestOpenClose(String json) {
+        return parse(json, PullRequestOpenClose.class);
     }
 
     public PullRequestFromRefUpdated pullRequestFromRefUpdated(String json) {
@@ -60,10 +52,6 @@ public class EventPayloads {
 
     public PullRequestReviewerFeedback pullRequestReviewerFeedback(String json) {
         return parse(json, PullRequestReviewerFeedback.class);
-    }
-
-    public PullRequestClosed pullRequestMerged(String json) {
-        return parse(json, PullRequestClosed.class);
     }
 
     public PullRequestCommented pullRequestCommented(String json) {

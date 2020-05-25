@@ -1,8 +1,9 @@
 package com.github.sorend.bitbucketserver.webhook.eventpayload
 
-import com.google.gson.Gson
 import com.github.sorend.bitbucketserver.webhook.eventpayload.helper.GsonHelper
-import com.github.sorend.bitbucketserver.webhook.eventpayload.model.*
+import com.github.sorend.bitbucketserver.webhook.eventpayload.model.Comment
+import com.github.sorend.bitbucketserver.webhook.eventpayload.requests.*
+import com.google.gson.Gson
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -55,10 +56,10 @@ class EventPayloadsTest extends Specification {
         String json = EventPayloadsTest.getResource("/repo-comment-added.json").text
         println json
         when:
-        def res = sut.repoCommentAdded(json)
+        def res = sut.repoCommented(json)
         println "updatedDate = ${res.comment.createdDate} + ${res.comment.permittedOperations.editable} + ${res.comment.properties_}"
         then:
-        res instanceof RepoCommentAdded
+        res instanceof RepoCommented
         res.actor
         res.repository
         res.comment
@@ -70,10 +71,10 @@ class EventPayloadsTest extends Specification {
         String json = EventPayloadsTest.getResource("/repo-comment-edited.json").text
         println json
         when:
-        def res = sut.repoCommentEdited(json)
+        def res = sut.repoCommented(json)
         println "updatedDate = ${res.comment.createdDate} + ${res.comment.permittedOperations.editable} + ${res.previousComment}"
         then:
-        res instanceof RepoCommentEdited
+        res instanceof RepoCommented
         res.actor
         res.repository
         res.comment
@@ -87,10 +88,10 @@ class EventPayloadsTest extends Specification {
         String json = EventPayloadsTest.getResource("/repo-comment-deleted.json").text
         println json
         when:
-        def res = sut.repoCommentDeleted(json)
+        def res = sut.repoCommented(json)
         println "updatedDate = ${res.comment.createdDate} + ${res.comment} + ${res}"
         then:
-        res instanceof RepoCommentDeleted
+        res instanceof RepoCommented
         res.actor
         res.repository
         res.comment instanceof Comment
@@ -120,9 +121,9 @@ class EventPayloadsTest extends Specification {
         String json = EventPayloadsTest.getResource("/pr-opened.json").text
         println json
         when:
-        def res = sut.pullRequestOpened(json)
+        def res = sut.pullRequestOpenClose(json)
         then:
-        res instanceof PullRequestOpened
+        res instanceof PullRequestOpenClose
         res.pullRequest
         res.pullRequest.toRef.repository.project.name
         res.pullRequest.fromRef.repository.project.name
@@ -202,9 +203,9 @@ class EventPayloadsTest extends Specification {
         String json = EventPayloadsTest.getResource("/pr-merged.json").text
         println json
         when:
-        def res = sut.pullRequestMerged(json)
+        def res = sut.pullRequestOpenClose(json)
         then:
-        res instanceof PullRequestClosed
+        res instanceof PullRequestOpenClose
         res.pullRequest
         res.pullRequest.participants.size() == 1
         res.pullRequest.participants[0].role == "PARTICIPANT"
@@ -218,9 +219,9 @@ class EventPayloadsTest extends Specification {
         String json = EventPayloadsTest.getResource(fn).text
         println json
         when:
-        def res = sut.pullRequestMerged(json)
+        def res = sut.pullRequestOpenClose(json)
         then:
-        res instanceof PullRequestClosed
+        res instanceof PullRequestOpenClose
         res.pullRequest
         res.eventKey == e
         where:

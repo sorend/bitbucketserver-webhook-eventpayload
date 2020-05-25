@@ -3,7 +3,7 @@ package sorend.bitbucketserver.eventpayloads.model;
 import com.google.gson.annotations.SerializedName;
 
 public class RepoModified extends BaseEventPayload {
-    private Repository old;
+    public Repository old;
     @SerializedName("new")
-    private Repository new_;
+    public Repository new_;
 }

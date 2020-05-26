@@ -14,7 +14,10 @@ public interface PullRequestAware extends RepositoryAware {
         return pullRequest().version;
     }
 
+    default String commit() { return pullRequest().fromRef.latestCommit; }
+
     default Repository repository() {
         return pullRequest().toRef.repository;
     }
+
 }
